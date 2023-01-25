@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model UserRoles {
+  userId     String
+  role       String
+  assignedAt DateTime @default(now())
+
+  user Users @relation(fields: [userId], references: [id])
+
+  @@id([userId, role])
+  @@map("user_roles")
+}
+
+model Users {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  password     String
+  phone        String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  canceledAt   DateTime?
+  refreshToken String?
+
+  roles        UserRoles[]
+  Appointments Appointments[]
+
+  UserConfig UserConfig?
+  Patient    Patient[]
+
+  @@map("users")
+}
+
+model UserConfig {
+  id                Int       @id @default(autoincrement())
+  userId            String    @unique
+  lunchTimeStart    DateTime?
+  lunchTimeDuration Int?
+
+  user Users @relation(fields: [userId], references: [id])
+
+  @@map("user_config")
+}
+
+model Patient {
+  id         String    @id @default(cuid())
+  userId     String
+  name       String
+  email      String?   @unique
+  phone      String
+  sex        String
+  birthDate  DateTime
+  comments   String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  canceledAt DateTime?
+
+  patientAttributes PatientAttributes[]
+  appointments      Appointments[]
+  user              Users               @relation(fields: [userId], references: [id])
+
+  @@map("patients")
+}
+
+model Attributes {
+  name              String              @id
+  patientAttributes PatientAttributes[]
+
+  @@map("attributes")
+}
+
+model PatientAttributes {
+  id        Int     @id @default(autoincrement())
+  patientId String
+  name      String?
+  value     Boolean @default(false)
+
+  attribute Attributes? @relation(fields: [name], references: [name])
+  patient   Patient     @relation(fields: [patientId], references: [id])
+
+  @@unique([patientId, name])
+  @@map("patient_attributes")
+}
+
+model Appointments {
+  id           String    @id @default(cuid())
+  userId       String
+  patientId    String
+  initDate     DateTime
+  endDate      DateTime?
+  status       String
+  procedure    String
+  price        Float
+  paid         Boolean   @default(false)
+  comments     String?
+  cancelReason String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  user              Users               @relation(fields: [userId], references: [id])
+  patient           Patient             @relation(fields: [patientId], references: [id])
+  AppointmentsFiles AppointmentsFiles[]
+
+  @@map("appointments")
+}
+
+model AppointmentsFiles {
+  id            Int    @id @default(autoincrement())
+  fileName      String @unique
+  fileUrl       String @unique
+  appointmentId String
+
+  appointment Appointments @relation(fields: [appointmentId], references: [id])
+
+  @@map("appointments_files")
+}
