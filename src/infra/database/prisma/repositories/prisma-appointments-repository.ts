@@ -74,8 +74,14 @@ export class PrismaAppointmentsRepository implements AppointmentsRepository {
     return await this.prisma.appointments.findMany({
       where: {
         status: status,
-        initDate: { gte: initDate },
-        endDate: { lte: endDate },
+        OR: [
+          {
+            initDate: { gte: initDate, lte: endDate },
+          },
+          {
+            endDate: { gte: initDate, lte: endDate },
+          }
+        ],
       },
       orderBy: {
         initDate: 'asc',

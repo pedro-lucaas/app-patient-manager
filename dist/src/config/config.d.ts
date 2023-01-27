@@ -11,6 +11,7 @@ export declare const USER_ROOT: {
     name: string;
     email: string;
     phone: string;
+    cpf: string;
     password: string;
     roles: Role[];
 };

@@ -33,12 +33,12 @@ let UpdateAppointmentUseCase = class UpdateAppointmentUseCase {
         if (!appointment) {
             throw new Error("Appointment not found");
         }
-        const appointmentWithSameDate = await this.appointmentsRepository.findMany(appointment_1.AppointmentStatus.SCHEDULED, initDate, endDate);
-        if (appointmentWithSameDate.length > 1 || appointmentWithSameDate[1].appointmentId === appointment.appointmentId) {
+        if (!!initDate && !!endDate)
+            appointment.setDates(initDate, endDate);
+        const appointmentWithSameDate = await this.appointmentsRepository.findMany(undefined, appointment.initDate, appointment.endDate);
+        if (appointmentWithSameDate.length > 1 || !appointmentWithSameDate.filter((a) => a.appointmentId === appointment.appointmentId).length) {
             throw new Error("Appointment in this time already scheduled");
         }
-        if (initDate && endDate)
-            appointment.setDates(initDate, endDate);
         appointment.procedure = procedure !== null && procedure !== void 0 ? procedure : appointment.procedure;
         appointment.price = price !== null && price !== void 0 ? price : appointment.price;
         appointment.paid = paid !== null && paid !== void 0 ? paid : appointment.paid;

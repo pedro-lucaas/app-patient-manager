@@ -12,6 +12,7 @@ export const USER_ROOT = {
   name: "root",
   email: "admin@gmail.com",
   phone: "123456789",
+  cpf: "123456789",
   password: "123456",
   roles: [Role.Admin, Role.User]
 }

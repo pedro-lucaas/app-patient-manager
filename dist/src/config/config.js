@@ -12,6 +12,7 @@ exports.USER_ROOT = {
     name: "root",
     email: "admin@gmail.com",
     phone: "123456789",
+    cpf: "123456789",
     password: "123456",
     roles: [role_enum_1.Role.Admin, role_enum_1.Role.User]
 };
