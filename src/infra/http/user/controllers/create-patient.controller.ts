@@ -16,16 +16,50 @@ export class CreatePatientController {
     @Body() body: CreatePatientBody,
     @Req() req: any,
   ) {
-    const { name, email, phone, sex, birthDate, comments, ...props } = body;
+    const {
+      name,
+      cpf,
+      caregiver,
+      email,
+      phone,
+      phone2,
+      sex,
+      civilStatus,
+      birthDate,
+      schooling,
+      addressCep,
+      address,
+      number,
+      complement,
+      district,
+      city,
+      state,
+      country,
+      comments,
+      ...props
+    } = body;
     const userId = req.user.sub;
     try {
       await this.createPatient.execute({
         userId,
         name,
+        cpf,
+        caregiver,
         email,
         phone,
+        phone2,
         sex,
+        civilStatus,
         birthDate: new Date(birthDate),
+        schooling,
+        addressCep,
+        address,
+        number,
+        complement,
+        district,
+        city,
+        state,
+        country,
         comments,
       }, props)
     } catch (e) {

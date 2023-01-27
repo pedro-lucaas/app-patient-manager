@@ -20,9 +20,8 @@ export class ScheduleAppointmentsController {
     @Req() req: any,
     @UploadedFiles() files?: Array<Express.Multer.File>,
   ) {
-    const { patientId, initDate, endDate, price: priceString, procedure, paid } = body;
+    const { patientId, initDate, endDate, price, procedure, paid } = body;
     const userId = req.user.sub;
-    const price = parseFloat(priceString);
     try {
       await this.scheduleAppointmentsUseCase.execute({
         patientId,

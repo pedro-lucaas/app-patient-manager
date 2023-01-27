@@ -7,10 +7,23 @@ import { Injectable } from "@nestjs/common";
 export class UpdatePatientRequest {
   patientId: string;
   name?: string;
+  cpf?: string;
+  caregiver?: string;
   email?: string;
   phone?: string;
+  phone2?: string;
   sex?: string;
+  civilStatus?: string;
   birthDate?: Date;
+  schooling?: string;
+  addressCep?: string;
+  address?: string;
+  number?: string;
+  complement?: string;
+  district?: string;
+  city?: string;
+  state?: string;
+  country?: string;
   comments?: string;
 }
 
@@ -49,11 +62,24 @@ export class UpdatePatientUseCase {
     const attributes: PatientAttributes[] =
       Object.entries(requestAttributes[0]).reduce((a, v) => ([...a, { name: v[0], value: v[1] ? true : false }]), [])
 
-    newPatient.name = props.name ?? newPatient.name;
+    newPatient.name = props.name.toUpperCase() ?? newPatient.name;
+    newPatient.cpf = props.cpf ?? newPatient.cpf;
+    newPatient.caregiver = props.caregiver ?? newPatient.caregiver;
     newPatient.email = email ?? newPatient.email;
     newPatient.phone = props.phone ?? newPatient.phone;
+    newPatient.phone2 = props.phone2 ?? newPatient.phone2;
     newPatient.sex = props.sex ?? newPatient.sex;
+    newPatient.civilStatus = props.civilStatus ?? newPatient.civilStatus;
     newPatient.birthDate = props.birthDate.getTime() ? props.birthDate : newPatient.birthDate;
+    newPatient.schooling = props.schooling ?? newPatient.schooling;
+    newPatient.addressCep = props.addressCep ?? newPatient.addressCep;
+    newPatient.address = props.address ?? newPatient.address;
+    newPatient.number = props.number ?? newPatient.number;
+    newPatient.complement = props.complement ?? newPatient.complement;
+    newPatient.district = props.district ?? newPatient.district;
+    newPatient.city = props.city ?? newPatient.city;
+    newPatient.state = props.state ?? newPatient.state;
+    newPatient.country = props.country ?? newPatient.country;
     newPatient.comments = props.comments ?? newPatient.comments;
     newPatient.attributes = attributes;
 

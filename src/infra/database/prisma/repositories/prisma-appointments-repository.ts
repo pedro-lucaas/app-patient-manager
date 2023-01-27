@@ -70,17 +70,15 @@ export class PrismaAppointmentsRepository implements AppointmentsRepository {
     }).then(appointments => appointments.map(PrismaAppointmentsMapper.toDomain))
       .then(appointments => new Pagination<Appointment>(appointments, total, page, limit));
   }
-  async findManyByDateInterval(initDate: Date, endDate: Date): Promise<Appointment[]> {
+  async findMany(status?: AppointmentStatus, initDate?: Date, endDate?: Date): Promise<Appointment[]> {
     return await this.prisma.appointments.findMany({
       where: {
-        OR: [
-          {
-            initDate: { lte: endDate },
-          },
-          {
-            endDate: { gte: initDate },
-          }
-        ],
+        status: status,
+        initDate: { gte: initDate },
+        endDate: { lte: endDate },
+      },
+      orderBy: {
+        initDate: 'asc',
       },
       include: { AppointmentsFiles: true, patient: true }
     }).then(appointments => appointments.map(PrismaAppointmentsMapper.toDomain))

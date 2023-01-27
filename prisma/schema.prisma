@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -50,17 +50,30 @@ model UserConfig {
 }
 
 model Patient {
-  id         String    @id @default(cuid())
-  userId     String
-  name       String
-  email      String?   @unique
-  phone      String
-  sex        String
-  birthDate  DateTime
-  comments   String?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  canceledAt DateTime?
+  id          String    @id @default(cuid())
+  userId      String
+  name        String
+  cpf         String    @unique
+  caregiver   String?
+  email       String?   @unique
+  phone       String
+  phone2      String?
+  sex         String
+  civilStatus String?
+  birthDate   DateTime
+  schooling   String?
+  addressCep  String?
+  address     String?
+  number      String?
+  complement  String?
+  district    String?
+  city        String?
+  state       String?
+  country     String?
+  comments    String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  canceledAt  DateTime?
 
   patientAttributes PatientAttributes[]
   appointments      Appointments[]

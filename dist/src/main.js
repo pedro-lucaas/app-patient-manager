@@ -6,9 +6,12 @@ const swagger_1 = require("@nestjs/swagger");
 const dist_1 = require("@nestjs/swagger/dist");
 const app_module_1 = require("./app.module");
 async function bootstrap() {
-    const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    const app = await core_1.NestFactory.create(app_module_1.AppModule, {
+        cors: {
+            origin: '*',
+        }
+    });
     app.useGlobalPipes(new common_1.ValidationPipe());
-    app.enableCors();
     const config = new swagger_1.DocumentBuilder()
         .setTitle('Cats example')
         .setDescription('The cats API description')

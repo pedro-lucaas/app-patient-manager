@@ -1,4 +1,4 @@
-import { IsNotEmpty } from "class-validator";
+import { IsISO8601, IsNotEmpty, IsNumber, IsNumberString, IsOptional } from "class-validator";
 
 export class CancelAppointmentBody {
   @IsNotEmpty()
@@ -6,6 +6,25 @@ export class CancelAppointmentBody {
 }
 
 export class UpdateAppointmentBody {
-  @IsNotEmpty()
+  @IsOptional()
   comments: string;
+
+  @IsOptional()
+  procedure: string;
+
+  @IsOptional()
+  @IsNumber()
+  price: number;
+
+  @IsOptional()
+  paid: boolean;
+
+  @IsOptional()
+  @IsISO8601()
+  initDate: string;
+
+  @IsOptional()
+  @IsISO8601()
+  endDate: string;
+
 }

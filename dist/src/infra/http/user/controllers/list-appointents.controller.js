@@ -26,6 +26,7 @@ let ListAppointmentsController = class ListAppointmentsController {
         const { appointments } = await this.listAppointmentsUseCase.execute({
             initDate: new Date(query.initDate),
             endDate: new Date(query.endDate),
+            status: query.status,
         });
         return {
             items: appointments.map(appointments_view_model_1.AppointmentViewModel.toHTTP),

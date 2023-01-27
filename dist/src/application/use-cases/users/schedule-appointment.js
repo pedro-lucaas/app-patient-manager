@@ -35,8 +35,8 @@ let ScheduleAppointmentsUseCase = class ScheduleAppointmentsUseCase {
         if (!patient) {
             throw new Error("Patient not found");
         }
-        const appointmentWithSameDate = await this.appointmentsRepository.findByDate(initDate, endDate);
-        if (appointmentWithSameDate) {
+        const appointmentWithSameDate = await this.appointmentsRepository.findMany(appointment_1.AppointmentStatus.SCHEDULED, initDate, endDate);
+        if (appointmentWithSameDate.length > 0) {
             throw new Error("Appointment in this time already scheduled");
         }
         const appointment = new appointment_1.Appointment({

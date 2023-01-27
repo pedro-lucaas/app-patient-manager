@@ -3,6 +3,11 @@ import { AppointmentsRepository } from "@application/repositories/appointments-r
 import { S3Service } from "@application/services/s3-service";
 export declare class UpdateAppointmentRequest {
     appointmentId: string;
+    procedure?: string;
+    price?: number;
+    paid?: boolean;
+    initDate?: Date;
+    endDate?: Date;
     comments?: string;
     cancelReason?: string;
     files?: Express.Multer.File[];

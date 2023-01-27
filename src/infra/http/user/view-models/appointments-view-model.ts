@@ -5,12 +5,13 @@ export class AppointmentViewModel {
     return {
       id: appointment.appointmentId,
       userId: appointment.userId,
-      patient: {
+      patient: appointment.patient && {
         id: appointment.patient.patientId,
         name: appointment.patient.name,
         email: appointment.patient.email,
         sex: appointment.patient.sex,
-        phone: appointment.patient.phone
+        phone: appointment.patient.phone,
+        birthDate: appointment.patient.birthDate,
       },
       initDate: appointment.initDate,
       endDate: appointment.endDate,
@@ -22,7 +23,7 @@ export class AppointmentViewModel {
       cancelReason: appointment.cancelReason,
       createdAt: appointment.createdAt,
       updatedAt: appointment.updatedAt,
-      files: appointment.files.map(file => {
+      files: appointment.files && appointment.files.map(file => {
         return {
           id: file.id,
           appointmentId: file.appointmentId,

@@ -2,20 +2,58 @@ import { IsOptional } from "class-validator";
 
 export class UpdatePatientBody {
   @IsOptional()
-  name: string;
+  name?: string;
 
   @IsOptional()
-  email: string;
+  cpf?: string;
 
   @IsOptional()
-  phone: string;
+  caregiver?: string;
 
   @IsOptional()
-  sex: string;
+  email?: string;
 
   @IsOptional()
-  // @IsDate()
-  birthDate: string;
+  phone?: string;
+
+  @IsOptional()
+  phone2?: string;
+
+  @IsOptional()
+  sex?: string;
+
+  @IsOptional()
+  civilStatus?: string;
+
+  @IsOptional()
+  birthDate?: Date;
+
+  @IsOptional()
+  schooling?: string;
+
+  @IsOptional()
+  addressCep?: string;
+
+  @IsOptional()
+  address?: string;
+
+  @IsOptional()
+  number?: string;
+
+  @IsOptional()
+  complement?: string;
+
+  @IsOptional()
+  district?: string;
+
+  @IsOptional()
+  city?: string;
+
+  @IsOptional()
+  state?: string;
+
+  @IsOptional()
+  country?: string;
 
   @IsOptional()
   comments?: string;

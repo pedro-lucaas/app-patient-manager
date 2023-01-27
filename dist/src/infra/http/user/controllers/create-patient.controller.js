@@ -33,16 +33,29 @@ let CreatePatientController = class CreatePatientController {
         this.createPatient = createPatient;
     }
     async handle(body, req) {
-        const { name, email, phone, sex, birthDate, comments } = body, props = __rest(body, ["name", "email", "phone", "sex", "birthDate", "comments"]);
+        const { name, cpf, caregiver, email, phone, phone2, sex, civilStatus, birthDate, schooling, addressCep, address, number, complement, district, city, state, country, comments } = body, props = __rest(body, ["name", "cpf", "caregiver", "email", "phone", "phone2", "sex", "civilStatus", "birthDate", "schooling", "addressCep", "address", "number", "complement", "district", "city", "state", "country", "comments"]);
         const userId = req.user.sub;
         try {
             await this.createPatient.execute({
                 userId,
                 name,
+                cpf,
+                caregiver,
                 email,
                 phone,
+                phone2,
                 sex,
+                civilStatus,
                 birthDate: new Date(birthDate),
+                schooling,
+                addressCep,
+                address,
+                number,
+                complement,
+                district,
+                city,
+                state,
+                country,
                 comments,
             }, props);
         }

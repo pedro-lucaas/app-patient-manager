@@ -1,8 +1,22 @@
 export declare class CreatePatientBody {
+    userId: string;
     name: string;
-    email: string;
+    cpf: string;
+    caregiver?: string;
+    email?: string;
     phone: string;
+    phone2?: string;
     sex: string;
-    birthDate: string;
+    civilStatus?: string;
+    birthDate: Date;
+    schooling?: string;
+    addressCep?: string;
+    address?: string;
+    number?: string;
+    complement?: string;
+    district?: string;
+    city?: string;
+    state?: string;
+    country?: string;
     comments?: string;
 }

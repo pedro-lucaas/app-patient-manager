@@ -1,7 +1,7 @@
 export declare class ScheduleAppointmentBody {
     patientId: string;
     procedure: string;
-    price: string;
+    price: number;
     paid: boolean;
     initDate: string;
     endDate: string;

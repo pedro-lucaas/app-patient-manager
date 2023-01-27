@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ListAppointmentsUseCase = exports.ListAppointmentsResponse = exports.ListAppointmentsRequest = void 0;
 const appointments_repository_1 = require("../../repositories/appointments-repository");
 const common_1 = require("@nestjs/common");
+const date_fns_1 = require("date-fns");
 class ListAppointmentsRequest {
 }
 exports.ListAppointmentsRequest = ListAppointmentsRequest;
@@ -23,8 +24,8 @@ let ListAppointmentsUseCase = class ListAppointmentsUseCase {
         this.appointmentsRepository = appointmentsRepository;
     }
     async execute(request) {
-        const { initDate, endDate } = request;
-        const appointments = await this.appointmentsRepository.findManyByDateInterval(initDate, endDate);
+        const { status, initDate, endDate } = request;
+        const appointments = await this.appointmentsRepository.findMany(status, (0, date_fns_1.isValid)(initDate) ? initDate : undefined, (0, date_fns_1.isValid)(endDate) ? endDate : undefined);
         return { appointments };
     }
 };

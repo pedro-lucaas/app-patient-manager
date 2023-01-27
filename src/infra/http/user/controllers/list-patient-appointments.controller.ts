@@ -19,7 +19,6 @@ export class ListPatientAppointmentsController {
     @Query('limit', ParseIntPipe) limit: number,
   ) {
     try {
-
       const { appointments } = await this.listPatientAppointmentsUseCase.execute({
         patientId,
         page,

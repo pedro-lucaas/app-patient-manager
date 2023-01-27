@@ -21,10 +21,15 @@ export class UpdateAppointmentController {
     @Body() body: UpdateAppointmentBody,
     @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
-    const { comments } = body;
+    const { comments, initDate, endDate, price, procedure, paid } = body;
     try {
       await this.updateAppointment.update({
         appointmentId,
+        initDate: initDate ? new Date(initDate) : undefined,
+        endDate: endDate ? new Date(endDate) : undefined,
+        price,
+        procedure,
+        paid,
         comments,
         files,
       });

@@ -21,7 +21,30 @@ exports.CancelAppointmentBody = CancelAppointmentBody;
 class UpdateAppointmentBody {
 }
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateAppointmentBody.prototype, "comments", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", String)
+], UpdateAppointmentBody.prototype, "procedure", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], UpdateAppointmentBody.prototype, "price", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Boolean)
+], UpdateAppointmentBody.prototype, "paid", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsISO8601)(),
+    __metadata("design:type", String)
+], UpdateAppointmentBody.prototype, "initDate", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsISO8601)(),
+    __metadata("design:type", String)
+], UpdateAppointmentBody.prototype, "endDate", void 0);
 exports.UpdateAppointmentBody = UpdateAppointmentBody;

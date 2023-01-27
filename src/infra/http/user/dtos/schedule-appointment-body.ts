@@ -8,8 +8,8 @@ export class ScheduleAppointmentBody {
   procedure: string;
 
   @IsNotEmpty()
-  @IsNumberString()
-  price: string;
+  @IsNumber()
+  price: number;
 
   @IsOptional()
   paid: boolean;

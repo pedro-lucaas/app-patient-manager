@@ -23,10 +23,15 @@ let UpdateAppointmentController = class UpdateAppointmentController {
         this.updateAppointment = updateAppointment;
     }
     async update(appointmentId, body, files) {
-        const { comments } = body;
+        const { comments, initDate, endDate, price, procedure, paid } = body;
         try {
             await this.updateAppointment.update({
                 appointmentId,
+                initDate: initDate ? new Date(initDate) : undefined,
+                endDate: endDate ? new Date(endDate) : undefined,
+                price,
+                procedure,
+                paid,
                 comments,
                 files,
             });

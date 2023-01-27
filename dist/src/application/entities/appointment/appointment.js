@@ -73,11 +73,17 @@ class Appointment {
     get updatedAt() {
         return this.props.updatedAt;
     }
-    set initDate(initDate) {
-        this.set({ initDate });
+    setDates(initDate, endDate) {
+        this.set({ initDate, endDate });
     }
-    set endDate(endDate) {
-        this.set({ endDate });
+    set procedure(procedure) {
+        this.set({ procedure });
+    }
+    set price(price) {
+        this.set({ price });
+    }
+    set paid(paid) {
+        this.set({ paid });
     }
     set status(status) {
         this.set({ status });
@@ -102,7 +108,7 @@ class Appointment {
             status: AppointmentStatus.STARTED,
             initDate: new Date(),
             cancelReason: undefined,
-            endDate: undefined,
+            endDate: (0, date_fns_1.addHours)(new Date(), 1),
         });
         this.validDates();
     }

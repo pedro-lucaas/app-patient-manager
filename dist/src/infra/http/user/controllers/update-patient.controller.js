@@ -33,15 +33,28 @@ let UpdatePatientController = class UpdatePatientController {
         this.updatePatient = updatePatient;
     }
     async handle(id, body) {
-        const { name, email, phone, sex, birthDate, comments } = body, props = __rest(body, ["name", "email", "phone", "sex", "birthDate", "comments"]);
+        const { name, cpf, caregiver, email, phone, phone2, sex, civilStatus, birthDate, schooling, addressCep, address, number, complement, district, city, state, country, comments } = body, props = __rest(body, ["name", "cpf", "caregiver", "email", "phone", "phone2", "sex", "civilStatus", "birthDate", "schooling", "addressCep", "address", "number", "complement", "district", "city", "state", "country", "comments"]);
         try {
             await this.updatePatient.execute({
                 patientId: id,
                 name,
+                cpf,
+                caregiver,
                 email,
                 phone,
+                phone2,
                 sex,
+                civilStatus,
                 birthDate: new Date(birthDate),
+                schooling,
+                addressCep,
+                address,
+                number,
+                complement,
+                district,
+                city,
+                state,
+                country,
                 comments,
             }, props);
         }

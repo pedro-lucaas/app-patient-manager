@@ -33,7 +33,7 @@ let UpdatePatientUseCase = class UpdatePatientUseCase {
         this.attributesRepository = attributesRepository;
     }
     async execute(request, ...requestAttributes) {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
         const { patientId, email } = request, props = __rest(request, ["patientId", "email"]);
         const newPatient = await this.patientsRepository.findById(patientId);
         if (!newPatient) {
@@ -57,12 +57,25 @@ let UpdatePatientUseCase = class UpdatePatientUseCase {
             }
         }
         const attributes = Object.entries(requestAttributes[0]).reduce((a, v) => ([...a, { name: v[0], value: v[1] ? true : false }]), []);
-        newPatient.name = (_a = props.name) !== null && _a !== void 0 ? _a : newPatient.name;
+        newPatient.name = (_a = props.name.toUpperCase()) !== null && _a !== void 0 ? _a : newPatient.name;
+        newPatient.cpf = (_b = props.cpf) !== null && _b !== void 0 ? _b : newPatient.cpf;
+        newPatient.caregiver = (_c = props.caregiver) !== null && _c !== void 0 ? _c : newPatient.caregiver;
         newPatient.email = email !== null && email !== void 0 ? email : newPatient.email;
-        newPatient.phone = (_b = props.phone) !== null && _b !== void 0 ? _b : newPatient.phone;
-        newPatient.sex = (_c = props.sex) !== null && _c !== void 0 ? _c : newPatient.sex;
+        newPatient.phone = (_d = props.phone) !== null && _d !== void 0 ? _d : newPatient.phone;
+        newPatient.phone2 = (_e = props.phone2) !== null && _e !== void 0 ? _e : newPatient.phone2;
+        newPatient.sex = (_f = props.sex) !== null && _f !== void 0 ? _f : newPatient.sex;
+        newPatient.civilStatus = (_g = props.civilStatus) !== null && _g !== void 0 ? _g : newPatient.civilStatus;
         newPatient.birthDate = props.birthDate.getTime() ? props.birthDate : newPatient.birthDate;
-        newPatient.comments = (_d = props.comments) !== null && _d !== void 0 ? _d : newPatient.comments;
+        newPatient.schooling = (_h = props.schooling) !== null && _h !== void 0 ? _h : newPatient.schooling;
+        newPatient.addressCep = (_j = props.addressCep) !== null && _j !== void 0 ? _j : newPatient.addressCep;
+        newPatient.address = (_k = props.address) !== null && _k !== void 0 ? _k : newPatient.address;
+        newPatient.number = (_l = props.number) !== null && _l !== void 0 ? _l : newPatient.number;
+        newPatient.complement = (_m = props.complement) !== null && _m !== void 0 ? _m : newPatient.complement;
+        newPatient.district = (_o = props.district) !== null && _o !== void 0 ? _o : newPatient.district;
+        newPatient.city = (_p = props.city) !== null && _p !== void 0 ? _p : newPatient.city;
+        newPatient.state = (_q = props.state) !== null && _q !== void 0 ? _q : newPatient.state;
+        newPatient.country = (_r = props.country) !== null && _r !== void 0 ? _r : newPatient.country;
+        newPatient.comments = (_s = props.comments) !== null && _s !== void 0 ? _s : newPatient.comments;
         newPatient.attributes = attributes;
         this.patientsRepository.save(newPatient);
     }

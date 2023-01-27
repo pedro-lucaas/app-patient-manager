@@ -7,9 +7,13 @@ import * as path from 'path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: {
+      origin: '*',
+    }
+  });
+
   app.useGlobalPipes(new ValidationPipe());
-  app.enableCors();
   const config = new DocumentBuilder()
     .setTitle('Cats example')
     .setDescription('The cats API description')

@@ -80,17 +80,15 @@ let PrismaAppointmentsRepository = class PrismaAppointmentsRepository {
         }).then(appointments => appointments.map(prisma_appointments_mapper_1.PrismaAppointmentsMapper.toDomain))
             .then(appointments => new Pagination_1.Pagination(appointments, total, page, limit));
     }
-    async findManyByDateInterval(initDate, endDate) {
+    async findMany(status, initDate, endDate) {
         return await this.prisma.appointments.findMany({
             where: {
-                OR: [
-                    {
-                        initDate: { lte: endDate },
-                    },
-                    {
-                        endDate: { gte: initDate },
-                    }
-                ],
+                status: status,
+                initDate: { gte: initDate },
+                endDate: { lte: endDate },
+            },
+            orderBy: {
+                initDate: 'asc',
             },
             include: { AppointmentsFiles: true, patient: true }
         }).then(appointments => appointments.map(prisma_appointments_mapper_1.PrismaAppointmentsMapper.toDomain));

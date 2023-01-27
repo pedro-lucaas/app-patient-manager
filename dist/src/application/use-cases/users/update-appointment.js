@@ -15,6 +15,7 @@ const appointment_files_1 = require("../../entities/appointment/appointment-file
 const appointments_repository_1 = require("../../repositories/appointments-repository");
 const s3_service_1 = require("../../services/s3-service");
 const common_1 = require("@nestjs/common");
+const date_fns_1 = require("date-fns");
 class UpdateAppointmentRequest {
 }
 exports.UpdateAppointmentRequest = UpdateAppointmentRequest;
@@ -24,18 +25,33 @@ let UpdateAppointmentUseCase = class UpdateAppointmentUseCase {
         this.s3Service = s3Service;
     }
     async update(request) {
-        const { appointmentId, comments, files } = request;
+        const { appointmentId, comments, files, initDate, endDate, price, procedure, paid } = request;
         const appointment = await this.appointmentsRepository.findById(appointmentId);
+        if ((0, date_fns_1.isBefore)(initDate, new Date()) || (0, date_fns_1.isBefore)(endDate, new Date())) {
+            throw new Error("Date must be in the future");
+        }
         if (!appointment) {
             throw new Error("Appointment not found");
         }
+        const appointmentWithSameDate = await this.appointmentsRepository.findMany(appointment_1.AppointmentStatus.SCHEDULED, initDate, endDate);
+        if (appointmentWithSameDate.length > 0) {
+            throw new Error("Appointment in this time already scheduled");
+        }
+        if (initDate && endDate)
+            appointment.setDates(initDate, endDate);
+        appointment.procedure = procedure !== null && procedure !== void 0 ? procedure : appointment.procedure;
+        appointment.price = price !== null && price !== void 0 ? price : appointment.price;
+        appointment.paid = paid !== null && paid !== void 0 ? paid : appointment.paid;
         appointment.comments = comments;
-        const s3response = await this.s3Service.uploadFiles(files, appointment.appointmentId);
-        appointment.files = s3response.map((file) => new appointment_files_1.AppointmentFiles({
-            fileName: file.Key,
-            fileUrl: file.Location,
-            appointmentId: appointment.appointmentId,
-        }));
+        appointment.files = [];
+        if (files) {
+            const s3response = await this.s3Service.uploadFiles(files, appointment.appointmentId);
+            appointment.files = s3response.map((file) => new appointment_files_1.AppointmentFiles({
+                fileName: file.Key,
+                fileUrl: file.Location,
+                appointmentId: appointment.appointmentId,
+            }));
+        }
         await this.appointmentsRepository.save(appointment);
     }
     async start(request) {

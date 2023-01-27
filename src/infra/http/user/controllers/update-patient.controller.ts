@@ -15,16 +15,50 @@ export class UpdatePatientController {
   async handle(
     @Param('id') id: string,
     @Body() body: UpdatePatientBody) {
-    const { name, email, phone, sex, birthDate, comments, ...props } = body;
-    try {
+    const {
+      name,
+      cpf,
+      caregiver,
+      email,
+      phone,
+      phone2,
+      sex,
+      civilStatus,
+      birthDate,
+      schooling,
+      addressCep,
+      address,
+      number,
+      complement,
+      district,
+      city,
+      state,
+      country,
+      comments,
+      ...props
+    } = body;
 
+    try {
       await this.updatePatient.execute({
         patientId: id,
         name,
+        cpf,
+        caregiver,
         email,
         phone,
+        phone2,
         sex,
+        civilStatus,
         birthDate: new Date(birthDate),
+        schooling,
+        addressCep,
+        address,
+        number,
+        complement,
+        district,
+        city,
+        state,
+        country,
         comments,
       }, props)
     } catch (e) {

@@ -24,9 +24,8 @@ let ScheduleAppointmentsController = class ScheduleAppointmentsController {
         this.scheduleAppointmentsUseCase = scheduleAppointmentsUseCase;
     }
     async handle(body, req, files) {
-        const { patientId, initDate, endDate, price: priceString, procedure, paid } = body;
+        const { patientId, initDate, endDate, price, procedure, paid } = body;
         const userId = req.user.sub;
-        const price = parseFloat(priceString);
         try {
             await this.scheduleAppointmentsUseCase.execute({
                 patientId,

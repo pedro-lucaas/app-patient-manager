@@ -3,4 +3,9 @@ export declare class CancelAppointmentBody {
 }
 export declare class UpdateAppointmentBody {
     comments: string;
+    procedure: string;
+    price: number;
+    paid: boolean;
+    initDate: string;
+    endDate: string;
 }

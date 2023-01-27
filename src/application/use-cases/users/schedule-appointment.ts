@@ -1,4 +1,4 @@
-import { Appointment } from "@application/entities/appointment/appointment";
+import { Appointment, AppointmentStatus } from "@application/entities/appointment/appointment";
 import { AppointmentFiles } from "@application/entities/appointment/appointment-files";
 import { AppointmentsRepository } from "@application/repositories/appointments-repository";
 import { PatientsRepository } from "@application/repositories/patients-repository";
@@ -38,8 +38,8 @@ export class ScheduleAppointmentsUseCase {
       throw new Error("Patient not found");
     }
 
-    const appointmentWithSameDate = await this.appointmentsRepository.findByDate(initDate, endDate);
-    if (appointmentWithSameDate) {
+    const appointmentWithSameDate = await this.appointmentsRepository.findMany(AppointmentStatus.SCHEDULED, initDate, endDate);
+    if (appointmentWithSameDate.length > 0) {
       throw new Error("Appointment in this time already scheduled");
     }
 

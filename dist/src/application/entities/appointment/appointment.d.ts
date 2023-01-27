@@ -48,8 +48,10 @@ export declare class Appointment {
     get files(): AppointmentFiles[];
     get createdAt(): Date;
     get updatedAt(): Date;
-    set initDate(initDate: Date);
-    set endDate(endDate: Date);
+    setDates(initDate: Date, endDate: Date): void;
+    set procedure(procedure: string);
+    set price(price: number);
+    set paid(paid: boolean);
     set status(status: AppointmentStatus);
     set comments(comments: string);
     set cancelReason(cancelReason: string);

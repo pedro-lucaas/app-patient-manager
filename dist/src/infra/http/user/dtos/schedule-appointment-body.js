@@ -23,8 +23,8 @@ __decorate([
 ], ScheduleAppointmentBody.prototype, "procedure", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsNumberString)(),
-    __metadata("design:type", String)
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
 ], ScheduleAppointmentBody.prototype, "price", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),

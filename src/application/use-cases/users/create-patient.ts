@@ -7,10 +7,23 @@ import { Injectable } from "@nestjs/common";
 export class CreatePatientRequest {
   userId: string;
   name: string;
+  cpf: string;
+  caregiver: string;
   email: string;
   phone: string;
+  phone2?: string;
   sex: string;
+  civilStatus?: string;
   birthDate: Date;
+  schooling?: string;
+  addressCep?: string;
+  address?: string;
+  number?: string;
+  complement?: string;
+  district?: string;
+  city?: string;
+  state?: string;
+  country?: string;
   comments?: string;
 }
 
@@ -22,7 +35,28 @@ export class CreatePatientUseCase {
   ) { }
 
   async execute(request: CreatePatientRequest, ...requestAttributes: any[]): Promise<void> {
-    const { name, email, phone, sex, birthDate, comments, userId } = request;
+    const {
+      userId,
+      name,
+      cpf,
+      caregiver,
+      email,
+      phone,
+      phone2,
+      sex,
+      civilStatus,
+      birthDate,
+      schooling,
+      addressCep,
+      address,
+      number,
+      complement,
+      district,
+      city,
+      state,
+      country,
+      comments
+    } = request
     const patient = await this.patientsRepository.findByEmail(email);
     if (patient) {
       throw new Error("Email already registered")
@@ -44,13 +78,26 @@ export class CreatePatientUseCase {
 
     const newPatient = new Patient({
       userId,
-      name,
+      name: name.toUpperCase(),
+      cpf,
+      caregiver,
       email,
       phone,
+      phone2,
       sex,
+      civilStatus,
       birthDate,
+      schooling,
+      address,
+      addressCep,
+      number,
+      complement,
+      district,
+      city,
+      state,
+      country,
       comments,
-      attributes,
+      attributes
     })
 
     this.patientsRepository.create(newPatient)

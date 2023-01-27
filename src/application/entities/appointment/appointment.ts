@@ -1,4 +1,4 @@
-import { isBefore, isDate } from "date-fns";
+import { addHours, addMinutes, isBefore, isDate } from "date-fns";
 import { randomUUID } from "node:crypto";
 import { Replace } from "src/helpers/Replace";
 import { Patient } from "../patient/patient";
@@ -110,11 +110,18 @@ export class Appointment {
   }
 
   // Setters
-  set initDate(initDate: Date) {
-    this.set({ initDate });
+  setDates(initDate: Date, endDate: Date) {
+    this.set({ initDate, endDate });
   }
-  set endDate(endDate: Date) {
-    this.set({ endDate });
+
+  set procedure(procedure: string) {
+    this.set({ procedure });
+  }
+  set price(price: number) {
+    this.set({ price });
+  }
+  set paid(paid: boolean) {
+    this.set({ paid });
   }
   set status(status: AppointmentStatus) {
     this.set({ status });
@@ -142,7 +149,7 @@ export class Appointment {
       status: AppointmentStatus.STARTED,
       initDate: new Date(),
       cancelReason: undefined,
-      endDate: undefined,
+      endDate: addHours(new Date(), 1),
     });
     this.validDates();
   }
