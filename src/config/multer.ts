@@ -1,5 +1,5 @@
-import { diskStorage, Multer } from "multer";
-import * as multerS3 from "multer-s3";
+import { diskStorage } from "multer";
+import multerS3 from "multer-s3";
 import { S3 } from '@aws-sdk/client-s3';
 
 export const storageTypes = {

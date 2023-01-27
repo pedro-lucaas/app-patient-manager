@@ -1,8 +1,11 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.storageTypes = void 0;
 const multer_1 = require("multer");
-const multerS3 = require("multer-s3");
+const multer_s3_1 = __importDefault(require("multer-s3"));
 const client_s3_1 = require("@aws-sdk/client-s3");
 exports.storageTypes = {
     local: (0, multer_1.diskStorage)({
@@ -15,10 +18,10 @@ exports.storageTypes = {
             cb(null, file.key);
         },
     }),
-    s3: multerS3({
+    s3: (0, multer_s3_1.default)({
         s3: new client_s3_1.S3({}),
         bucket: process.env.AWS_BUCKET_NAME,
-        contentType: multerS3.AUTO_CONTENT_TYPE,
+        contentType: multer_s3_1.default.AUTO_CONTENT_TYPE,
         acl: 'public-read',
         key: (req, file, cb) => {
             const filename = file.originalname.split('.')[0];
