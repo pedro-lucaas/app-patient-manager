@@ -36,7 +36,7 @@ export class UpdateAppointmentUseCase {
     }
 
     const appointmentWithSameDate = await this.appointmentsRepository.findMany(AppointmentStatus.SCHEDULED, initDate, endDate);
-    if (appointmentWithSameDate.length > 0) {
+    if (appointmentWithSameDate.length > 1 || appointmentWithSameDate[1].appointmentId === appointment.appointmentId) {
       throw new Error("Appointment in this time already scheduled");
     }
 
