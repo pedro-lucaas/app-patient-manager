@@ -18,7 +18,7 @@ export class S3Service {
     const newFileName = `${name}-${uniqueString}.${extension}`;
     try {
       let s3Response = await this.s3.upload({
-        Bucket: 'patient-manager-files',
+        Bucket: process.env.AWS_BUCKET_NAME,
         Key: newFileName,
         Body: buffer,
         ACL: "public-read",
@@ -44,8 +44,8 @@ export class S3Service {
 
   async deleteFile(key: string) {
     try {
-      let s3Response = await this.s3.deleteObject({
-        Bucket: 'patient-manager-files',
+      await this.s3.deleteObject({
+        Bucket: process.env.AWS_BUCKET_NAME,
         Key: key,
       }).promise();
     }

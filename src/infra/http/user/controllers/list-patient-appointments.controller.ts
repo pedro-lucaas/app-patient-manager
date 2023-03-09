@@ -3,6 +3,10 @@ import { Controller, Get, HttpException, HttpStatus, Param, Query, UseGuards } f
 import { Roles, Role, RolesGuard, JwtAuthGuard } from "@infra/http/auth";
 import { AppointmentViewModel } from "../view-models/appointments-view-model";
 import { ParseIntPipe } from "@infra/utils/pipes/parse-int.pipe";
+import { IsEnum } from "class-validator";
+import { AppointmentStatus } from "@application/entities/appointment/appointment";
+import { query } from "express";
+import { ListPatientAppointmentsQuery } from "../dtos/list-patient-appointments-query";
 
 @Roles(Role.User)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -15,14 +19,15 @@ export class ListPatientAppointmentsController {
   @Get()
   async handle(
     @Param('id') patientId: string,
-    @Query('page', ParseIntPipe) page: number,
-    @Query('limit', ParseIntPipe) limit: number,
+    @Query() query: ListPatientAppointmentsQuery,
   ) {
+    const { page, limit, status } = query;
     try {
       const { appointments } = await this.listPatientAppointmentsUseCase.execute({
         patientId,
-        page,
-        limit,
+        page: page && parseInt(page),
+        limit: limit && parseInt(limit),
+        status,
       });
 
       return {

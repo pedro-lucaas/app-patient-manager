@@ -1,10 +1,9 @@
-import { CancelAppointmentUseCase } from "@application/use-cases/users/cancel-appointments";
-import { ScheduleAppointmentsUseCase } from "@application/use-cases/users/schedule-appointment";
 import { UpdateAppointmentUseCase } from "@application/use-cases/users/update-appointment";
-import { Body, Controller, HttpException, HttpStatus, Param, Put, UploadedFiles, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, HttpException, HttpStatus, Param, Put, UseGuards, UseInterceptors } from "@nestjs/common";
 import { AnyFilesInterceptor } from "@nestjs/platform-express";
-import { UpdateAppointmentBody, CancelAppointmentBody } from "../dtos/update-appointment-body";
+import { UpdateAppointmentBody } from "../dtos/update-appointment-body";
 import { Roles, Role, RolesGuard, JwtAuthGuard } from "@infra/http/auth";
+import { AppointmentStatus } from "@application/entities/appointment/appointment";
 
 @Roles(Role.User)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -16,12 +15,12 @@ export class UpdateAppointmentController {
 
   @Put()
   @UseInterceptors(AnyFilesInterceptor())
-  async update(
+  async handle(
     @Param('id') appointmentId: string,
     @Body() body: UpdateAppointmentBody,
-    @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
-    const { comments, initDate, endDate, price, procedure, paid } = body;
+    const { comments, initDate, endDate, price, procedure, paid, status, medicalRecord, confirmedBy, cancelReason } = body;
+
     try {
       await this.updateAppointment.update({
         appointmentId,
@@ -29,49 +28,12 @@ export class UpdateAppointmentController {
         endDate: endDate ? new Date(endDate) : undefined,
         price,
         procedure,
-        paid,
-        comments,
-        files,
-      });
-    } catch (e) {
-
-      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
-    }
-  }
-
-  @Put('cancel')
-  async cancel(@Param('id') appointmentId: string, @Body() body: CancelAppointmentBody) {
-    const { cancelReason } = body;
-    try {
-
-      await this.updateAppointment.cancel({
-        appointmentId,
+        confirmedBy,
         cancelReason,
-      });
-    } catch (e) {
-
-      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
-    }
-  }
-
-  @Put('start')
-  async start(@Param('id') appointmentId: string) {
-    try {
-
-      await this.updateAppointment.start({
-        appointmentId,
-      });
-    } catch (e) {
-
-      throw new HttpException(e.message, HttpStatus.BAD_REQUEST);
-    }
-  }
-  @Put('finish')
-  async finish(@Param('id') appointmentId: string) {
-    try {
-
-      await this.updateAppointment.finish({
-        appointmentId,
+        paid,
+        medicalRecord,
+        comments,
+        status: status as AppointmentStatus,
       });
     } catch (e) {
 

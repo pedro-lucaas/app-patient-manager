@@ -14,14 +14,10 @@ import { ListPatientsController } from "./controllers/list-patients.controller";
 import { CancelPatientUseCase } from "@application/use-cases/users/cancel-pacient";
 import { ListPatientsUseCase } from "@application/use-cases/users/list-patients";
 import { UpdatePatientUseCase } from "@application/use-cases/users/update-patient";
-import { ListNumberOfPatientsPerAttributeController } from "./controllers/list-number-of-patients-per-attribute.controller";
-import { ListNumberOfPatientsPerAttributeUseCase } from "@application/use-cases/users/list-number-of-patients-per-attributes";
 import { CreateAttributeController } from "./controllers/create-attribute.controller";
 import { DeleteAttributeController } from "./controllers/delete-attribute.controller";
-import { ListAttributesController } from "./controllers/list-atributes.controller";
 import { CreateAttributeUseCase } from "@application/use-cases/users/create-attribute";
 import { DeleteAttributeUseCase } from "@application/use-cases/users/delete-attribute";
-import { ListAttributesUseCase } from "@application/use-cases/users/list-attributes";
 import { ScheduleAppointmentsController } from "./controllers/schedule-appointment.controller";
 import { ScheduleAppointmentsUseCase } from "@application/use-cases/users/schedule-appointment";
 import { UpdateAppointmentController } from "./controllers/update-appointment.controller";
@@ -33,6 +29,14 @@ import { ListAppointmentsController } from "./controllers/list-appointents.contr
 import { ListAppointmentsUseCase } from "@application/use-cases/users/list-appointments";
 import { FindPatientUseCase } from "@application/use-cases/users/find-patient";
 import { FindPatientController } from "./controllers/find-patient.controller";
+import { DeleteAppointmentController } from "./controllers/delete-appointment.controller";
+import { DeleteAppointmentUseCase } from "@application/use-cases/users/delete-appointment";
+import { FindAppointmentController } from "./controllers/find-appointment.controller";
+import { FindAppointmentUseCase } from "@application/use-cases/users/find-appointment";
+import { UploadImagesController } from "./controllers/upload-images.controller";
+import { UploadImagesUseCase } from "@application/use-cases/users/upload-images";
+import { DeleteImageUseCase } from "@application/use-cases/users/delete-image";
+import { DeleteImageController } from "./controllers/delete-image.controller";
 
 @Module({
   imports: [
@@ -49,12 +53,14 @@ import { FindPatientController } from "./controllers/find-patient.controller";
     FindPatientController,
     CreateAttributeController,
     DeleteAttributeController,
-    ListAttributesController,
     ScheduleAppointmentsController,
     UpdateAppointmentController,
+    FindAppointmentController,
     ListAppointmentsController,
     ListPatientAppointmentsController,
-    ListNumberOfPatientsPerAttributeController,
+    DeleteAppointmentController,
+    UploadImagesController,
+    DeleteImageController,
   ],
   providers: [
     FindUserProfile,
@@ -67,12 +73,14 @@ import { FindPatientController } from "./controllers/find-patient.controller";
     FindPatientUseCase,
     CreateAttributeUseCase,
     DeleteAttributeUseCase,
-    ListAttributesUseCase,
     ScheduleAppointmentsUseCase,
     UpdateAppointmentUseCase,
+    FindAppointmentUseCase,
     ListAppointmentsUseCase,
     ListPatientAppointmentsUseCase,
-    ListNumberOfPatientsPerAttributeUseCase,
+    DeleteAppointmentUseCase,
+    UploadImagesUseCase,
+    DeleteImageUseCase,
     S3Service,
   ],
 })

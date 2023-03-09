@@ -1,4 +1,5 @@
-import { IsISO8601, IsNotEmpty, IsNumber, IsNumberString, IsOptional } from "class-validator";
+import { ConfirmedBy } from "@application/entities/appointment/appointment";
+import { IsEnum, IsISO8601, IsNotEmpty, IsNumber, IsNumberString, IsOptional } from "class-validator";
 
 export class ScheduleAppointmentBody {
   @IsNotEmpty()

@@ -11,6 +11,12 @@ export enum AppointmentStatus {
   CANCELED = 'canceled',
 }
 
+export enum ConfirmedBy {
+  WHATSAPP = 'WHATSAPP',
+  EMAIL = 'EMAIL',
+  PHONE = 'PHONE',
+}
+
 export interface IAppointment {
   patientId?: string;
   patient?: Patient;
@@ -20,7 +26,9 @@ export interface IAppointment {
   status: AppointmentStatus;
   procedure: string;
   price: number;
+  confirmedBy?: ConfirmedBy;
   paid?: boolean;
+  medicalRecord?: string;
   comments?: string;
   cancelReason?: string;
   files?: AppointmentFiles[];
@@ -90,8 +98,14 @@ export class Appointment {
   get price(): number {
     return this.props.price;
   }
+  get confirmedBy(): ConfirmedBy {
+    return this.props.confirmedBy;
+  }
   get paid(): boolean {
     return this.props.paid;
+  }
+  get medicalRecord(): string {
+    return this.props.medicalRecord;
   }
   get comments(): string {
     return this.props.comments;
@@ -123,8 +137,17 @@ export class Appointment {
   set paid(paid: boolean) {
     this.set({ paid });
   }
+  set confirmedBy(confirmedBy: ConfirmedBy) {
+    this.set({ confirmedBy });
+  }
   set status(status: AppointmentStatus) {
     this.set({ status });
+  }
+  set medicalRecord(medicalRecord: string) {
+    // console.log("files", this.files);
+    this.files.filter(file => medicalRecord.search(file.fileUrl) === -1).forEach(file => this.files.splice(this.files.indexOf(file), 1));
+    // console.log("files", this.files);
+    this.set({ medicalRecord });
   }
   set comments(comments: string) {
     this.set({ comments });

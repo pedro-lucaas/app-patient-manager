@@ -24,6 +24,9 @@ model Users {
   email        String    @unique
   password     String
   phone        String
+  inactiveDays String    @default("[0,6]")
+  lunchTime    String    @default("[60,150]")
+  workTime     String    @default("[0,24]")
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   canceledAt   DateTime?
@@ -82,40 +85,40 @@ model Patient {
   @@map("patients")
 }
 
-model Attributes {
-  name              String              @id
-  patientAttributes PatientAttributes[]
-
-  @@map("attributes")
-}
-
 model PatientAttributes {
-  id        Int     @id @default(autoincrement())
+  id        Int    @id @default(autoincrement())
   patientId String
-  name      String?
-  value     Boolean @default(false)
+  name      String
+  value     String
 
-  attribute Attributes? @relation(fields: [name], references: [name])
-  patient   Patient     @relation(fields: [patientId], references: [id])
+  patient Patient @relation(fields: [patientId], references: [id])
 
   @@unique([patientId, name])
   @@map("patient_attributes")
 }
 
+enum ConfirmedBy {
+  WHATSAPP
+  EMAIL
+  PHONE
+}
+
 model Appointments {
-  id           String    @id @default(cuid())
-  userId       String
-  patientId    String
-  initDate     DateTime
-  endDate      DateTime?
-  status       String
-  procedure    String
-  price        Float
-  paid         Boolean   @default(false)
-  comments     String?
-  cancelReason String?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id            String       @id @default(cuid())
+  userId        String
+  patientId     String
+  initDate      DateTime
+  endDate       DateTime?
+  status        String
+  procedure     String
+  price         Float
+  confirmedBy   ConfirmedBy?
+  paid          Boolean      @default(false)
+  medicalRecord String?
+  comments      String?
+  cancelReason  String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
 
   user              Users               @relation(fields: [userId], references: [id])
   patient           Patient             @relation(fields: [patientId], references: [id])

@@ -1,7 +1,5 @@
 import { Appointment } from "@application/entities/appointment/appointment";
-import { Attribute } from "@application/entities/attribute/attribute";
 import { AppointmentsRepository } from "@application/repositories/appointments-repository";
-import { AttributesRepository } from "@application/repositories/attributes-repository";
 import { Injectable } from "@nestjs/common";
 
 export class CancelAppointmentUseCaseRequest {

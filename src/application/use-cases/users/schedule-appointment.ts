@@ -1,4 +1,4 @@
-import { Appointment, AppointmentStatus } from "@application/entities/appointment/appointment";
+import { Appointment, AppointmentStatus, ConfirmedBy } from "@application/entities/appointment/appointment";
 import { AppointmentFiles } from "@application/entities/appointment/appointment-files";
 import { AppointmentsRepository } from "@application/repositories/appointments-repository";
 import { PatientsRepository } from "@application/repositories/patients-repository";

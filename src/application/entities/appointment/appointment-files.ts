@@ -16,15 +16,12 @@ export class AppointmentFiles {
   get id(): number {
     return this.props.id;
   }
-
   get appointmentId(): string {
     return this.props.appointmentId;
   }
-
   get fileName(): string {
     return this.props.fileName;
   }
-
   get fileUrl(): string {
     return this.props.fileUrl;
   }

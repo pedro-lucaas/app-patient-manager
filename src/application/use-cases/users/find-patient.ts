@@ -20,13 +20,7 @@ export class FindPatientUseCase {
 
   async execute(request: FindPatientRequest): Promise<FindPatientResponse> {
     let { id } = request;
-    try {
-      const patient = await this.patientsRepository.findById(id);
-
-      return { patient };
-    } catch (error) {
-
-      throw new HttpException("Patient not found", 404);
-    }
+    const patient = await this.patientsRepository.findById(id);
+    return { patient };
   }
 }

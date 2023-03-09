@@ -1,6 +1,6 @@
 export interface IPatientAttributes {
   name: string;
-  value: boolean;
+  value: string;
 }
 
 
@@ -16,12 +16,12 @@ export class PatientAttributes {
   get name(): string {
     return this.props.name;
   }
-  get value(): boolean {
+  get value(): string {
     return this.props.value;
   }
 
   // Setters
-  set value(value: boolean) {
+  set value(value: string) {
     this.props.value = value;
   }
 

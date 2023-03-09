@@ -5,8 +5,6 @@ import { PrismaUsersRepository } from "./prisma/repositories/prisma-users-reposi
 import { RegisterUser } from "@application/use-cases/admin/register-user";
 import { PatientsRepository } from "@application/repositories/patients-repository";
 import { PrismaPatientsRepository } from "./prisma/repositories/prisma-patients-repository";
-import { AttributesRepository } from "@application/repositories/attributes-repository";
-import { PrismaAttributesRepository } from "./prisma/repositories/prisma-attributes-repository";
 import { Appointment } from "@application/entities/appointment/appointment";
 import { AppointmentsRepository } from "@application/repositories/appointments-repository";
 import { PrismaAppointmentsRepository } from "./prisma/repositories/prisma-appointments-repository";
@@ -30,10 +28,6 @@ import { S3Service } from "@application/services/s3-service";
       useClass: PrismaPatientsRepository,
     },
     {
-      provide: AttributesRepository,
-      useClass: PrismaAttributesRepository,
-    },
-    {
       provide: AppointmentsRepository,
       useClass: PrismaAppointmentsRepository,
     }
@@ -41,7 +35,6 @@ import { S3Service } from "@application/services/s3-service";
   exports: [
     UsersRepository,
     PatientsRepository,
-    AttributesRepository,
     AppointmentsRepository,
   ],
 })

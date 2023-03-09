@@ -5,8 +5,11 @@ export class PrismaUserMapper {
     return {
       id: user.userId,
       name: user.name,
-      phone: user.phone,
       email: user.email,
+      phone: user.phone,
+      inactiveDays: user.inactiveDays,
+      lunchTime: user.lunchTime,
+      workTime: user.workTime,
       password: user.password,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
@@ -32,8 +35,11 @@ export class PrismaUserMapper {
     if (!raw) return null;
     return new User({
       name: raw.name,
-      phone: raw.phone,
       email: raw.email,
+      phone: raw.phone,
+      inactiveDays: raw.inactiveDays,
+      lunchTime: raw.lunchTime,
+      workTime: raw.workTime,
       password: raw.password,
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,

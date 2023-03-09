@@ -6,4 +6,13 @@ export class UpdateUserProfileBody {
 
   @IsNotEmpty()
   phone: string;
+
+  @IsNotEmpty()
+  inactiveDays: string;
+
+  @IsNotEmpty()
+  lunchTime: string;
+
+  @IsNotEmpty()
+  workTime: string;
 }

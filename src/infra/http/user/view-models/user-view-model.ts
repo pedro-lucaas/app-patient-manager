@@ -8,6 +8,9 @@ export class UserViewModel {
       name: user.name,
       email: user.email,
       phone: user.phone,
+      inactiveDays: user.inactiveDays,
+      lunchTime: user.lunchTime,
+      workTime: user.workTime,
     };
   }
 }

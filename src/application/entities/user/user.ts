@@ -10,6 +10,9 @@ export interface IUser {
   email: string;
   password: string;
   phone: string;
+  inactiveDays?: string;
+  lunchTime?: string;
+  workTime?: string;
   createdAt: Date;
   updatedAt: Date;
   canceledAt?: Date;
@@ -55,6 +58,15 @@ export class User {
   get phone(): string {
     return this.props.phone;
   }
+  get inactiveDays(): string {
+    return this.props.inactiveDays;
+  }
+  get lunchTime(): string {
+    return this.props.lunchTime;
+  }
+  get workTime(): string {
+    return this.props.workTime;
+  }
   get createdAt(): Date {
     return this.props.createdAt;
   }
@@ -83,6 +95,15 @@ export class User {
   }
   set phone(phone: string) {
     this.set({ phone });
+  }
+  set inactiveDays(inactiveDays: string) {
+    this.set({ inactiveDays });
+  }
+  set lunchTime(lunchTime: string) {
+    this.set({ lunchTime });
+  }
+  set workTime(workTime: string) {
+    this.set({ workTime });
   }
   set refreshToken(refreshToken: string) {
     this.props.refreshToken = refreshToken;

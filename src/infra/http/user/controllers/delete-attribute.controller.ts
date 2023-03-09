@@ -5,16 +5,20 @@ import { Roles, Role, RolesGuard, JwtAuthGuard } from "@infra/http/auth";
 
 @Roles(Role.User)
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Controller('attribute/:name')
+@Controller('patient/:id/attribute/:name')
 export class DeleteAttributeController {
   constructor(
     private readonly deleteAttribute: DeleteAttributeUseCase,
   ) { }
 
   @Delete()
-  async handle(@Param("name") name: string) {
+  async handle(
+    @Param("id") id: string,
+    @Param("name") name: string
+  ) {
     try {
       await this.deleteAttribute.execute({
+        patientId: id,
         name,
       })
     } catch (e) {

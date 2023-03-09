@@ -34,7 +34,7 @@ export class PrismaAppointmentsRepository implements AppointmentsRepository {
         ],
         status: { not: AppointmentStatus.CANCELED },
       },
-      include: { patient: true },
+      include: { patient: true, AppointmentsFiles: true },
     }).then(PrismaAppointmentsMapper.toDomain);
   }
   async findById(appointmentId: string): Promise<Appointment | null> {
@@ -42,6 +42,7 @@ export class PrismaAppointmentsRepository implements AppointmentsRepository {
       where: {
         id: appointmentId,
       },
+      include: { patient: true, AppointmentsFiles: true },
     }).then(PrismaAppointmentsMapper.toDomain);
   }
   async findStartedAppointment(): Promise<Appointment> {
@@ -49,24 +50,27 @@ export class PrismaAppointmentsRepository implements AppointmentsRepository {
       where: {
         status: AppointmentStatus.STARTED,
       },
+      include: { patient: true, AppointmentsFiles: true },
     }).then(PrismaAppointmentsMapper.toDomain);
   }
-  async findManyByPatientId(patientId: string, page: number = 1, limit: number = PAGE_SIZE): Promise<Pagination<Appointment>> {
+  async findManyByPatientId(patientId: string, page: number = 1, limit: number = PAGE_SIZE, status?: AppointmentStatus): Promise<Pagination<Appointment>> {
     const total = await this.prisma.appointments.count({
       where: {
         patientId,
+        status,
       },
     });
     return await this.prisma.appointments.findMany({
       where: {
         patientId,
+        status,
       },
       orderBy: {
         initDate: 'desc',
       },
       skip: (page - 1) * limit,
       take: limit,
-      include: { AppointmentsFiles: true }
+      include: { AppointmentsFiles: true, patient: true }
     }).then(appointments => appointments.map(PrismaAppointmentsMapper.toDomain))
       .then(appointments => new Pagination<Appointment>(appointments, total, page, limit));
   }
@@ -74,7 +78,7 @@ export class PrismaAppointmentsRepository implements AppointmentsRepository {
     return await this.prisma.appointments.findMany({
       where: {
         status: status,
-        OR: [
+        OR: initDate && endDate && [
           {
             initDate: { gte: initDate, lte: endDate },
           },
@@ -90,6 +94,11 @@ export class PrismaAppointmentsRepository implements AppointmentsRepository {
     }).then(appointments => appointments.map(PrismaAppointmentsMapper.toDomain))
   }
   async delete(appointmentId: string): Promise<void> {
+    await this.prisma.appointmentsFiles.deleteMany({
+      where: {
+        appointmentId,
+      },
+    });
     await this.prisma.appointments.delete({
       where: {
         id: appointmentId,
@@ -97,6 +106,12 @@ export class PrismaAppointmentsRepository implements AppointmentsRepository {
     });
   }
   async save(appointment: Appointment): Promise<void> {
+    await this.prisma.appointmentsFiles.deleteMany({
+      where: {
+        appointmentId: appointment.appointmentId,
+        NOT: appointment.files.map(file => ({ fileUrl: file.fileUrl })),
+      },
+    });
     await this.prisma.appointments.update({
       where: {
         id: appointment.appointmentId,
@@ -115,10 +130,5 @@ export class PrismaAppointmentsRepository implements AppointmentsRepository {
         update: PrismaAppointmentsFilesMapper.toPrisma(file),
       })
     }
-    await this.prisma.appointmentsFiles.deleteMany({
-      where: {
-        fileName: { notIn: appointment.files.map(file => file.fileName) },
-      },
-    });
   }
 }

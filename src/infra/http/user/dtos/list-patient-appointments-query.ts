@@ -1,14 +1,15 @@
 import { AppointmentStatus } from "@application/entities/appointment/appointment";
-import { IsISO8601, IsOptional, IsEnum } from "class-validator";
+import { Transform } from "class-transformer";
+import { IsOptional, IsEnum, IsNumberString, IsNumber } from "class-validator";
 
 export class ListPatientAppointmentsQuery {
   @IsOptional()
-  @IsISO8601()
-  initDate?: Date;
+  @IsNumberString()
+  page?: string;
 
   @IsOptional()
-  @IsISO8601()
-  endDate?: Date;
+  @IsNumberString()
+  limit?: string;
 
   @IsOptional()
   @IsEnum(AppointmentStatus)

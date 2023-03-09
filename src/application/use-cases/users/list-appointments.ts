@@ -20,9 +20,19 @@ export class ListAppointmentsUseCase {
   ) { }
 
   async execute(request: ListAppointmentsRequest): Promise<ListAppointmentsResponse> {
-    const { status, initDate, endDate } = request;
-
-    const appointments = await this.appointmentsRepository.findMany(status, isValid(initDate) ? initDate : undefined, isValid(endDate) ? endDate : undefined);
+    let { status, initDate, endDate } = request;
+    if (status && !Object.values(AppointmentStatus).includes(status)) {
+      throw new Error("Invalid status");
+    }
+    initDate = new Date(initDate)
+    if (!isValid(initDate)) {
+      initDate = undefined;
+    }
+    endDate = new Date(endDate)
+    if (!isValid(endDate)) {
+      endDate = undefined;
+    }
+    const appointments = await this.appointmentsRepository.findMany(status, initDate, endDate);
 
     return { appointments }
   }

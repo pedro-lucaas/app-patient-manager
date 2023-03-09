@@ -60,7 +60,7 @@ export class UpdatePatientController {
         state,
         country,
         comments,
-      }, props)
+      })
     } catch (e) {
 
       throw new HttpException(e.message, HttpStatus.BAD_REQUEST)

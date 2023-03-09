@@ -11,13 +11,9 @@ import { PrismaService } from "../prisma.service";
 export class PrismaPatientsRepository implements PatientsRepository {
   constructor(private readonly prisma: PrismaService) { }
   async create(patient: Patient): Promise<void> {
-    console.log(patient.attributes);
     await this.prisma.patient.create({
       data: {
         ...PrismaPatientsMapper.toPrisma(patient),
-        patientAttributes: {
-          create: patient.attributes.map(PrismaPatientAttributesMapper.toPrisma),
-        },
       },
     });
   }
@@ -38,7 +34,7 @@ export class PrismaPatientsRepository implements PatientsRepository {
       include: { patientAttributes: true },
     }).then(PrismaPatientsMapper.toDomain);
   }
-  async findAll(page: number = 1, search?: string, attributeName?: string, sex?: string, userId?: string): Promise<Pagination<Patient>> {
+  async findAll(page: number = 1, search?: string, sex?: string, userId?: string): Promise<Pagination<Patient>> {
     const total = await this.prisma.patient.count();
     return await this.prisma.patient.findMany({
       where: {
@@ -48,12 +44,6 @@ export class PrismaPatientsRepository implements PatientsRepository {
           { email: { contains: search } },
           { phone: { contains: search } },
         ],
-        patientAttributes: attributeName && {
-          some: {
-            name: attributeName,
-            value: true,
-          }
-        },
         sex: sex && {
           equals: sex,
         },
@@ -73,31 +63,24 @@ export class PrismaPatientsRepository implements PatientsRepository {
       data: {
         ...PrismaPatientsMapper.toPrisma(patient),
         patientAttributes: {
-          upsert: patient.attributes.map((attribute) => ({
+          deleteMany: {
+            patientId: patient.patientId,
+            name: {
+              notIn: patient.attributes.map(a => a.name),
+            }
+          },
+          upsert: patient.attributes.map(a => ({
             where: {
               patientId_name: {
                 patientId: patient.patientId,
-                name: attribute.name,
+                name: a.name,
               },
             },
-            update: PrismaPatientAttributesMapper.toPrisma(attribute),
-            create: PrismaPatientAttributesMapper.toPrisma(attribute),
+            create: PrismaPatientAttributesMapper.toPrisma(a),
+            update: PrismaPatientAttributesMapper.toPrisma(a),
           })),
         },
       },
     });
-  }
-  async countPatientsByAttribute(attributeName: string, userId?: string): Promise<number> {
-    return await this.prisma.patient.count({
-      where: {
-        patientAttributes: {
-          some: {
-            name: attributeName,
-            value: true,
-          }
-        }
-      }
-    });
-
   }
 }

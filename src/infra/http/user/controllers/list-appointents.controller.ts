@@ -1,13 +1,8 @@
 import { Controller, Get, Query, UseGuards } from "@nestjs/common";
 import { Roles, Role, RolesGuard, JwtAuthGuard } from "@infra/http/auth";
 import { AppointmentViewModel } from "../view-models/appointments-view-model";
-import { ListPatientAppointmentsQuery } from "../dtos/list-patient-appointments-query";
+import { ListAppointmentsQuery } from "../dtos/list-appointments-query";
 import { ListAppointmentsUseCase } from "@application/use-cases/users/list-appointments";
-import { Param } from "@nestjs/common/decorators";
-import { isEnum } from "class-validator";
-import { AppointmentStatus } from "@application/entities/appointment/appointment";
-import { HttpException } from "@nestjs/common/exceptions";
-import { HttpStatus } from "@nestjs/common/enums";
 
 @Roles(Role.User)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -19,11 +14,12 @@ export class ListAppointmentsController {
 
   @Get()
   async handle(
-    @Query() query?: ListPatientAppointmentsQuery,
+    @Query() query?: ListAppointmentsQuery,
   ) {
+
     const { appointments } = await this.listAppointmentsUseCase.execute({
-      initDate: new Date(query.initDate),
-      endDate: new Date(query.endDate),
+      initDate: query.initDate,
+      endDate: query.endDate,
       status: query.status,
     });
 

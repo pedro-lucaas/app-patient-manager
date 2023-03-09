@@ -17,12 +17,15 @@ export class UpdateUserProfileController {
     @Body() body: UpdateUserProfileBody,
   ) {
     const { sub: userId } = req.user;
-    const { name, phone } = body;
+    const { name, phone, inactiveDays, lunchTime, workTime } = body;
     try {
       await this.updateUserProfile.execute({
         userId,
         name,
         phone,
+        inactiveDays,
+        lunchTime,
+        workTime,
       })
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);

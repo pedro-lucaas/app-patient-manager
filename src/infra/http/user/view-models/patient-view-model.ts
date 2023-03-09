@@ -25,7 +25,12 @@ export class PatientViewModel {
       state: patient.state,
       country: patient.country,
       comments: patient.comments,
-      ...Object.entries(patient.attributes).reduce((a, v) => ({ ...a, [v[1].name]: v[1].value }), {}),
+      extraAttributes: [
+        ...Object.entries(patient.attributes).map((v) => ({
+          name: v[1].name,
+          value: v[1].value,
+        })),
+      ],
       createdAt: patient.createdAt,
       updatedAt: patient.updatedAt,
     };
